@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Test 1</title>
+    <style>
+        .title-job {
+            font-weight: bold;
+        }
+
+
+
+
+
+        .footer {
+            margin-top: 25px;
+            font-size: 20px;
+            /* display: flex; */
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        input {
+            padding: 6px 15px;
+        }
+
+        button {
+            padding: 7px 15px;
+            color: white;
+            background-color: green;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: lightgrey;
+        }
+
+        button:active {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Đỗ Đức Duy</h1>
+    <p id="date">Date</p>
+
+    <div id="display-job">
+        <div class="job">
+            <p class="title-job">Title</p>
+            <p class="city-job">City</p>
+        </div>
+    </div>
+    <div class="footer">
+        <span>Showing 1 to 10 entries</span>
+        <div class="index_buttons">
+            <button id="prev-button" onclick="nextPage()">Previous</button>
+            <input type="text" id="page-number" placeholder="Enter your page">
+            <input onclick="searchJob()" type="text" id="job-search" placeholder="Enter your job">
+            <button id="next-button" onclick="">Next</button>
+        </div>
+    </div>
+
+</body>
+</html>
+<script src="search-test.js"></script>
+<script src="button.js"></script>
+<script>
+    let date = new Date();
+    document.getElementById("date").innerHTML = date
+
+
+    const getJobs = async () => {
+        try {
+        const url = 'https://frcz3.sse.codesandbox.io/jobs';
+        const res = await fetch(url);
+        const data =await res.json();
+        renderJob(data);
+    } catch(err) {
+        console.log('Err: ', err);
+    };
+};
+getJobs();
+
+    const renderJob = (data) => {
+        let html = '';
+        
+        for (let i = 0; i < data.length; i++) {
+            html += `
+            <div id="display-job">
+            <p class="title-job">Tilte-Job: ${data[i].title}</p>
+            <p class="city-job">City: ${data[i].city}</p>
+        </div>
+            `
+    }
+    console.log(html);
+    const display_job = document.getElementById('display-job');
+    display_job.innerHTML = html;
+}
+
+
+//Search JOB
+
+</script>

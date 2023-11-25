@@ -5,14 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Module Test 1</title>
     <style>
+
         .title-job {
             font-weight: bold;
         }
-
-
-
-
-
         .footer {
             margin-top: 25px;
             font-size: 20px;
@@ -55,10 +51,9 @@
     <div class="footer">
         <span>Showing 1 to 10 entries</span>
         <div class="index_buttons">
-            <button id="prev-button" onclick="nextPage()">Previous</button>
-            <input type="text" id="page-number" placeholder="Enter your page">
-            <input onclick="searchJob()" type="text" id="job-search" placeholder="Enter your job">
-            <button id="next-button" onclick="">Next</button>
+            <button id="prev-button" onclick="getPrevPage()">Previous</button>
+            <input  type="text" id="job-search" placeholder="Enter your job">
+            <button id="next-button" onclick="getNextPage()">Next</button>
         </div>
     </div>
 
@@ -68,38 +63,16 @@
 <script src="button.js"></script>
 <script>
     let date = new Date();
-    document.getElementById("date").innerHTML = date
-
-
-    const getJobs = async () => {
-        try {
-        const url = 'https://frcz3.sse.codesandbox.io/jobs';
-        const res = await fetch(url);
-        const data =await res.json();
-        renderJob(data);
-    } catch(err) {
-        console.log('Err: ', err);
-    };
-};
-getJobs();
-
-    const renderJob = (data) => {
-        let html = '';
-        
-        for (let i = 0; i < data.length; i++) {
-            html += `
-            <div id="display-job">
-            <p class="title-job">Tilte-Job: ${data[i].title}</p>
-            <p class="city-job">City: ${data[i].city}</p>
-        </div>
-            `
+document.getElementById("date").innerHTML = date
+let limit = 10;
+let currentPage = 1;
+renderJob(currentPage, limit);
+const inputSearch   = document.getElementById("job-search");
+inputSearch.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        const search = event.target.value
+       
+        searchJob(currentPage, limit, search);
     }
-    console.log(html);
-    const display_job = document.getElementById('display-job');
-    display_job.innerHTML = html;
-}
-
-
-//Search JOB
-
+});
 </script>
